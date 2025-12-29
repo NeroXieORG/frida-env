@@ -18,3 +18,13 @@ const ipv6ToIpv4 = (addr) => {
 
     return b0 + "." + b1 + "." + b2 + "." + b3;
 }
+
+function ntohs(n) {
+    return ((n & 0xff) << 8) | ((n >> 8) & 0xff);
+}
+
+export {
+    ipv6ToIpv4,
+    ipv4String,
+    ntohs
+}

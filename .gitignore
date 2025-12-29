@@ -3,7 +3,9 @@
 *.ipa
 
 .venv/
-# 业务脚本
-hook/
 
-frida/
+# 业务脚本
+frida-ios/src/hook/
+# 最终脚本
+frida-ios/dist
+

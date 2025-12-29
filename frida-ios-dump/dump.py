@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # Author : AloneMonkey
@@ -33,7 +33,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 DUMP_JS = os.path.join(script_dir, "dump.js")
 
 User = "root"
-Password = "alpine"
+Password = "alpine"  # 12345
 # 要连接的设备id
 # Host = "192.168.2.104"
 Host = "localhost"
