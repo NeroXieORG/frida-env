@@ -33,9 +33,8 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 DUMP_JS = os.path.join(script_dir, "dump.js")
 
 User = "root"
-Password = "alpine"  # 12345
+Password = "12345"  # 12345 #alpine
 # 要连接的设备id
-# Host = "192.168.2.104"
 Host = "localhost"
 Port = 2222
 KeyFileName = None
