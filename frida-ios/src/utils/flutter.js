@@ -12,25 +12,41 @@ const hasFlutter = () => {
 
 // hook plugin
 const traceFlutterMethodCall = () => {
-    const methodName = "+ methodCallWithMethodName:arguments:";
-    const hook = ObjC.classes.FlutterMethodCall[methodName];
-    try {
-        Interceptor.attach(hook.implementation, {
-            onEnter: function (args) {
-                this.className = ObjC.Object(args[0]).toString();
-                this.methodName = ObjC.selectorAsString(args[1]);
-                console.log(this.className + ":" + this.methodName);
-                console.log("method: " + ObjC.Object(args[2]).toString());
-                console.log("args: " + ObjC.Object(args[3]).toString());
-            }
-        })
-    } catch (err) {
-        console.log("error in trace FlutterMethodCall");
-        console.log(err);
-    }
+    const cls = ObjC.classes.FlutterMethodCall;
+    if (!cls) return;
+    
+    const method = cls['+ methodCallWithMethodName:arguments:'];
+    if (!method) return;
+
+    Interceptor.attach(method.implementation, {
+        onEnter: args => {
+            const methodName = ObjC.Object(args[2]).toString();  // 获取方法名
+            const _arguments = ObjC.Object(args[3]).toString();  // 获取参数
+            console.log("FlutterMethodCall call method name: " + methodName);
+            console.log("arguments: " + _arguments);
+        }
+    });
 }
 
+const traceFlutterMethodChannel = () => {
+    const cls = ObjC.classes.FlutterMethodChannel;
+    if (!cls) return;
+
+    const method = cls['- invokeMethod:arguments:'];
+    if (!method) return;
+
+    Interceptor.attach(method.implementation, {
+        onEnter: args => {
+            const methodName = ObjC.Object(args[2]).toString();  // 获取方法名
+            const _arguments = ObjC.Object(args[3]).toString();  // 获取参数
+            console.log('MethodChannel invoked method: ' + methodName);
+            console.log('arguments: ' + _arguments);
+        }
+    });
+
+}
 export {
     hasFlutter,
     traceFlutterMethodCall,
+    traceFlutterMethodChannel
 }

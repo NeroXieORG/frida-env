@@ -5,9 +5,10 @@
 .venv/
 
 # 业务脚本
-frida-ios/src/hook/**
+frida-ios/src/hook/**.js
+
 # 最终脚本
-frida-ios/dist/**
+frida-ios/dist/**.js
 
 __pycache__
 

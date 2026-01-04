@@ -66,14 +66,13 @@ frida-ios 用于iOS逆向的项目工程
 
 ```
 frida-ios/
-├── package.json              # 可选： npm 项目描述
-├── tsconfig.json             # 可选：以后上 TS 再用
-├── build.sh                  # 一键编译脚本（必须）
+├── package.json              # npm 项目描述
+├── tsconfig.json             # TS 配置
 │
 ├── src/                      # ⭐ 所有源码都在这里
 │   ├── index.js              # ⭐ 入口文件（唯一入口）
 │   │
-│   ├── hooks/                # 各类 hook
+│   ├── hooks/                # 各类业务 hook
 │   │   ├── ssl.js
 │   │   ├── socket.js
 │   │   └── flutter.js
@@ -82,12 +81,12 @@ frida-ios/
 │       └── class_helper.js
 │
 └── dist/
-    └── bundle.js              # ⭐ frida-compile 输出（只注入这个）
+    └── hook.js              # ⭐ frida-compile 输出（只注入这个）
 ```
 
 ### 编译和运行
 
-通过`npm run build` 生成最终的产物 `dist/bundle.js`，这也是 frida 最终注入的脚本
+通过`npm run build` 生成最终的产物 `dist/hook.js`，这也是 frida 最终注入的脚本
 
 通过`bundle_id=com.example.app npm run start` 可以一键编译并运行
 

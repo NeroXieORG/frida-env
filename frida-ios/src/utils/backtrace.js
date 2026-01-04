@@ -1,15 +1,18 @@
 const printBacktrace = (ctx, maxDepth = 10) => {
-    const backtrace = Thread.backtrace(ctx, Backtracer.ACCURATE)
-        .slice(0, maxDepth)
-        .map((addr) => {
+    Thread.backtrace(ctx, Backtracer.ACCURATE)
+        .slice(0, maxDepth)  // 限制堆栈深度
+        .forEach(addr => {
             try {
-                return DebugSymbol.fromAddress(addr).toString();
+                const symbol = DebugSymbol.fromAddress(addr);
+                if (symbol) {
+                    console.log(symbol.toString());
+                } else {
+                    console.log(`Address ${addr} has no associated symbol.`);
+                }
             } catch (e) {
-                return `Failed to resolve address: ${addr}`;
+                console.log(`Failed to resolve address ${addr}:`, e);
             }
-        })
-        .join('\n');
-    console.log(backtrace);
+        });
 };
 
 export {

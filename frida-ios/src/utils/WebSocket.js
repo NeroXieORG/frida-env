@@ -1,11 +1,9 @@
 const disableSRWebSocket = () => {
-    console.log('[*] disableSRWebSocket');
     const cls = ObjC.classes.SRWebSocket;
-    if (!cls) {
-        console.log('❌ SRWebSocket class not found');
-        return;
-    }
-    
+    if (!cls) return;
+
+    console.log('🚫 Disable SRWebSocket');
+
     Interceptor.attach(cls['- initWithURLRequest:'].implementation, {
         onEnter: args => {
             const request = new ObjC.Object(args[2]);
@@ -13,18 +11,19 @@ const disableSRWebSocket = () => {
         }
     });
 
-    ['- open', '- close'].forEach(method => {
-        Interceptor.attach(cls[method].implementation, {
-            onEnter: () => console.log(`🚫 SRWebSocket ${method} BLOCKED`),
-            onLeave: retval => {
-                try {
-                    retval.replace(0);
-                } catch (e) {
-                    console.log('❌ Error replacing retval:', e);
+    cls.$ownMethods
+        .map(m => m.toString())
+        .filter(m => m !== '- initWithURLRequest:')
+        .forEach(m => {
+            Interceptor.attach(cls[m].implementation, {
+                onEnter: () => console.log(`🚫 SRWebSocket ${m} BLOCKED`),
+                onLeave: retval => {
+                    try {
+                        retval.replace(0);
+                    } catch (e) { }
                 }
-            }
+            });
         });
-    });
 }
 
 export {
