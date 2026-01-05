@@ -10,11 +10,19 @@ const hasFlutter = () => {
     return false
 }
 
+const printFlutterModules = () => {
+    Process.enumerateModules().forEach(m => {
+        if (m.name.toLowerCase().includes("flutter")) {
+            console.log(m.name, m.base, m.size);
+        }
+    });
+}
+
 // hook plugin
 const traceFlutterMethodCall = () => {
     const cls = ObjC.classes.FlutterMethodCall;
     if (!cls) return;
-    
+
     const method = cls['+ methodCallWithMethodName:arguments:'];
     if (!method) return;
 
@@ -47,6 +55,7 @@ const traceFlutterMethodChannel = () => {
 }
 export {
     hasFlutter,
+    printFlutterModules,
     traceFlutterMethodCall,
     traceFlutterMethodChannel
 }
